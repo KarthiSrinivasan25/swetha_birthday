@@ -1165,12 +1165,66 @@
   }
 
   function playBirthdaySong(){
-    music.src = musicFolder + BIRTHDAY_SONG;
-    music.muted = false;
-    music.volume = 0.55;
-    music.play().then(()=>{ player.classList.add("playing"); userUnmuted = true; }).catch(()=>{});
+  // Create a new audio element or use existing one
+  if (!music) {
+    music = document.getElementById('bgMusic');
   }
+  
+  // Stop current song if playing
+  music.pause();
+  
+  // Set birthday song
+  music.src = musicFolder + BIRTHDAY_SONG;
+  music.muted = false;
+  music.volume = 0.7;
+  music.loop = false; // Don't loop birthday song
+  
+  // Try to play
+  music.play()
+    .then(() => { 
+      player.classList.add("playing"); 
+      userUnmuted = true;
+      console.log("Birthday song playing!");
+    })
+    .catch(err => { 
+      console.log("Autoplay blocked:", err);
+      // Show a manual play button
+      showPlayButton();
+    });
+}
 
+function showPlayButton() {
+  const btn = document.createElement('button');
+  btn.textContent = '🔊 Play Birthday Song';
+  btn.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999999;
+    background: var(--rose-deep);
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    border-radius: 30px;
+    font-size: 24px;
+    font-family: 'Karla', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    animation: pulse 2s ease-in-out infinite;
+  `;
+  btn.onclick = function() {
+    music.play()
+      .then(() => {
+        player.classList.add("playing");
+        btn.remove();
+      })
+      .catch(e => console.log("Still can't play:", e));
+  };
+  document.body.appendChild(btn);
+}
+  
   function toggleMainSong(){
     if(music.paused || music.muted){
       music.muted = false;
@@ -1182,13 +1236,12 @@
     }
   }
 
-  /* Browsers block unmuted autoplay with no user gesture, so: start the birthday
-     song muted right away (this IS allowed everywhere) — it's the song we want
-     playing the moment the age flip finishes — then unmute the instant any
-     interaction happens (tap, key, scroll, even a mouse move) so it feels
-     instant without ever showing a blocked-autoplay silence. */
-  music.src = musicFolder + BIRTHDAY_SONG;
-  music.volume = 0.55;
+  /* Browsers block unmuted autoplay with no user gesture, so: start the main
+     song muted right away (this IS allowed everywhere), then unmute the instant
+     any interaction happens — a tap, a key, a scroll, even a mouse move — so it
+     feels instant without ever showing a blocked-autoplay silence. */
+  music.src = musicFolder + MAIN_SONG;
+  music.volume = 0.5;
   music.muted = true;
   const mutedPlayAttempt = music.play();
   if(mutedPlayAttempt){ mutedPlayAttempt.then(()=> player.classList.add("playing")).catch(()=>{}); }
@@ -1284,23 +1337,38 @@
   }
 
   function runIntro(){
-    // flip the age from 24 to 25, with a little sparkle burst around the card,
-    // and this is the exact moment the birthday song should kick in
-    setTimeout(()=>{
-      ageCounter.classList.add('flip');
-      sparkleBurst(ageCardWrap, 8);
-      setTimeout(()=>{ ageCounter.textContent = '25'; }, 320);
-      setTimeout(()=>{ ageCounter.classList.remove('flip'); }, 660);
-      playBirthdaySong();
-    }, 1000);
+  // Add a one-time click listener to the whole page to enable audio
+  const enableAudio = function() {
+    if (userUnmuted) return;
+    userUnmuted = true;
+    music.muted = false;
+    // Try to play the birthday song immediately on first click
+    playBirthdaySong();
+    document.removeEventListener('click', enableAudio);
+    document.removeEventListener('touchstart', enableAudio);
+  };
+  
+  document.addEventListener('click', enableAudio);
+  document.addEventListener('touchstart', enableAudio);
+  
+  // flip the age from 24 to 25
+  setTimeout(()=>{
+    ageCounter.classList.add('flip');
+    sparkleBurst(ageCardWrap, 8);
+    
+    // Try to play birthday song
+    // If user already interacted, this will work
+    playBirthdaySong();
+    
+    setTimeout(()=>{ ageCounter.textContent = '25'; }, 320);
+    setTimeout(()=>{ ageCounter.classList.remove('flip'); }, 660);
+  }, 1000);
 
-    // cross-fade straight into the happy-birthday + cake stage (bouncing text, balloons, confetti all live there now)
-    setTimeout(()=>{
-      fillCelebrationStage();
-      crossfadeStage(introStage1, introStage2, 500);
-    }, 2500);
-  }
-
+  setTimeout(()=>{
+    fillCelebrationStage();
+    crossfadeStage(introStage1, introStage2, 500);
+  }, 2500);
+}
   function crumbBurst(originEl){
     const rect = originEl.getBoundingClientRect();
     const colors = ["#f3ceb8","#e8c39a","#fff5e6","#d9a441"];
@@ -1331,14 +1399,14 @@
     cakeCutStage.classList.add('cut');
     crumbBurst(cakeCutStage);
     confettiBurst();
+    playBirthdaySong(); // the one moment that gets its own song
     setTimeout(()=>{
       introOverlay.classList.add('hide');
       document.body.classList.remove('intro-active');
-      setTimeout(()=>{
-        introOverlay.remove();
-        playMainSong(); // original page is now showing, hand off to the main song
-      }, 950);
+      setTimeout(()=>{ introOverlay.remove(); }, 950);
     }, 900);
+    // once the birthday song has had its moment, hand back to the single main song
+    setTimeout(()=>{ playMainSong(); }, 8000);
   }
   cakeCutStage.addEventListener('click', performCakeCut);
 
