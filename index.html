@@ -1283,24 +1283,20 @@
   }
 
   function runIntro(){
-  // flip the age from 24 to 25, with a little sparkle burst around the card
-  setTimeout(()=>{
-    ageCounter.classList.add('flip');
-    sparkleBurst(ageCardWrap, 8);
-    
-    // 🎵 PLAY BIRTHDAY SONG IMMEDIATELY WHEN AGE FLIPS TO 25
-    playBirthdaySong();
-    
-    setTimeout(()=>{ ageCounter.textContent = '25'; }, 320);
-    setTimeout(()=>{ ageCounter.classList.remove('flip'); }, 660);
-  }, 1000);
+    // flip the age from 24 to 25, with a little sparkle burst around the card
+    setTimeout(()=>{
+      ageCounter.classList.add('flip');
+      sparkleBurst(ageCardWrap, 8);
+      setTimeout(()=>{ ageCounter.textContent = '25'; }, 320);
+      setTimeout(()=>{ ageCounter.classList.remove('flip'); }, 660);
+    }, 1000);
 
-  // cross-fade straight into the happy-birthday + cake stage (bouncing text, balloons, confetti all live there now)
-  setTimeout(()=>{
-    fillCelebrationStage();
-    crossfadeStage(introStage1, introStage2, 500);
-  }, 2500);
-}
+    // cross-fade straight into the happy-birthday + cake stage (bouncing text, balloons, confetti all live there now)
+    setTimeout(()=>{
+      fillCelebrationStage();
+      crossfadeStage(introStage1, introStage2, 500);
+    }, 2500);
+  }
 
   function crumbBurst(originEl){
     const rect = originEl.getBoundingClientRect();
@@ -1326,23 +1322,21 @@
   }
 
   let cakeCut = false;
-function performCakeCut(){
-  if(cakeCut) return;
-  cakeCut = true;
-  cakeCutStage.classList.add('cut');
-  crumbBurst(cakeCutStage);
-  confettiBurst();
-  // Song already playing from age flip - no need to play again
-  // playBirthdaySong(); // COMMENTED OUT - REMOVE THIS LINE
-  
-  setTimeout(()=>{
-    introOverlay.classList.add('hide');
-    document.body.classList.remove('intro-active');
-    setTimeout(()=>{ introOverlay.remove(); }, 950);
-  }, 900);
-  // Switch back to main song after the celebration moment
-  setTimeout(()=>{ playMainSong(); }, 8000);
-}
+  function performCakeCut(){
+    if(cakeCut) return;
+    cakeCut = true;
+    cakeCutStage.classList.add('cut');
+    crumbBurst(cakeCutStage);
+    confettiBurst();
+    playBirthdaySong(); // the one moment that gets its own song
+    setTimeout(()=>{
+      introOverlay.classList.add('hide');
+      document.body.classList.remove('intro-active');
+      setTimeout(()=>{ introOverlay.remove(); }, 950);
+    }, 900);
+    // once the birthday song has had its moment, hand back to the single main song
+    setTimeout(()=>{ playMainSong(); }, 8000);
+  }
   cakeCutStage.addEventListener('click', performCakeCut);
 
   // also allow a quick swipe/drag across the cake to cut it, like a real knife stroke
