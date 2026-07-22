@@ -562,7 +562,7 @@
   </div>
 </div>
 
-<audio id="bgMusic" loop></audio>
+<audio id="bgMusic" loop autoplay muted playsinline></audio>
 
 <div class="player" id="player">
   <div class="reel"></div>
@@ -866,7 +866,7 @@
 
   /* ============ Config ============ */
   const musicFolder = "music/";
-  const chapterMusic = { birth:"song.mp3", childhood:"song.mp3", school:"song.mp3", college:"song.mp3", friendship:"song.mp3", family:"song.mp3", gallery:"song.mp3", videos:"melody.mp3", final:"song.mp3" };
+  const chapterMusic = { birth:"song.mp3", childhood:"song.mp3", school:"song.mp3", college:"song.mp3", friendship:"song.mp3", family:"song", gallery:"song.mp3", videos:"song.mp3", final:"song.mp3" };
   const galleryCount = 12;
 
   /* ============ Placeholder illustrations (used when a real photo is missing) ============ */
@@ -921,18 +921,42 @@
   /* ============ Music ============ */
   const music = document.getElementById("bgMusic");
   const player = document.getElementById("player");
+  let userUnmuted = false;
+
   function changeMusic(song){
     music.src = musicFolder + song;
+    music.muted = false;
     music.volume = 0.5;
-    music.play().then(()=>player.classList.add("playing")).catch(()=>{});
+    music.play().then(()=>{ player.classList.add("playing"); userUnmuted = true; }).catch(()=>{});
   }
 
   /* ============ Autoplay helper ============ */
   function startMusic(song){
     music.src = musicFolder + (song || chapterMusic.birth);
+    music.muted = false;
     music.volume = 0.5;
+    music.play().then(()=>{ player.classList.add("playing"); userUnmuted = true; }).catch(()=>{});
+  }
+
+  /* Browsers block unmuted autoplay with no user gesture, so: start muted right away
+     (this IS allowed everywhere), then unmute the instant any interaction happens —
+     a tap, a key, a scroll, even a mouse move — so it feels instant without ever
+     showing a blocked-autoplay silence. */
+  music.src = musicFolder + chapterMusic.birth;
+  music.volume = 0.5;
+  music.muted = true;
+  const mutedPlayAttempt = music.play();
+  if(mutedPlayAttempt){ mutedPlayAttempt.then(()=> player.classList.add("playing")).catch(()=>{}); }
+
+  function unmuteOnFirstGesture(){
+    if(userUnmuted) return;
+    userUnmuted = true;
+    music.muted = false;
     music.play().then(()=> player.classList.add("playing")).catch(()=>{});
   }
+  ["pointerdown","touchstart","keydown","scroll","mousemove"].forEach(evt=>
+    document.addEventListener(evt, unmuteOnFirstGesture, { once:true, passive:true })
+  );
 
   /* ============ Intro: age flip -> happy birthday -> cake cut ============ */
   const introOverlay = document.getElementById('introOverlay');
