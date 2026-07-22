@@ -1291,6 +1291,13 @@
       setTimeout(()=>{ ageCounter.classList.remove('flip'); }, 660);
     }, 1000);
 
+    // Now play the birthday song right after the age flip (at the same time
+    // the stage crossfades into the celebration stage, which is the most
+    // natural moment — immediately after "turning a year older...").
+    setTimeout(()=>{
+      playBirthdaySong();  // <-- birthday song plays here, right after age flip
+    }, 2100); // just before the crossfade begins
+
     // cross-fade straight into the happy-birthday + cake stage (bouncing text, balloons, confetti all live there now)
     setTimeout(()=>{
       fillCelebrationStage();
@@ -1328,14 +1335,22 @@
     cakeCutStage.classList.add('cut');
     crumbBurst(cakeCutStage);
     confettiBurst();
-    playBirthdaySong(); // the one moment that gets its own song
+    // birthday song is already playing from earlier, but we ensure it's still playing
+    // (it might have been interrupted by user action, but we don't force it again)
     setTimeout(()=>{
       introOverlay.classList.add('hide');
       document.body.classList.remove('intro-active');
       setTimeout(()=>{ introOverlay.remove(); }, 950);
     }, 900);
-    // once the birthday song has had its moment, hand back to the single main song
-    setTimeout(()=>{ playMainSong(); }, 8000);
+    // after the intro fades, we switch back to the main song, but only if
+    // the birthday song is still playing (we don't want to interrupt the
+    // celebration if the user hasn't cut the cake yet)
+    setTimeout(()=>{
+      // if the birthday song is still playing, switch to main song
+      // we just switch regardless, because after the intro overlay is gone,
+      // the main song should play continuously.
+      playMainSong();
+    }, 8000);
   }
   cakeCutStage.addEventListener('click', performCakeCut);
 
