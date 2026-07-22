@@ -34,7 +34,6 @@
     position:relative;
   }
 
-  /* paper grain texture, sits above the color gradients, under content */
   body::before{
     content:"";
     position:fixed; inset:0; z-index:0; pointer-events:none;
@@ -54,7 +53,6 @@
   .script{ font-family:'Caveat', cursive; }
   .mono{ font-family:'Space Mono', monospace; letter-spacing:.03em; }
 
-  /* ============ Corkboard side nav ============ */
   .pinboard{
     position:fixed; right:20px; top:50%; transform:translateY(-50%); z-index:900;
     display:flex; flex-direction:column; gap:15px;
@@ -89,7 +87,6 @@
   .pin:hover::after{ opacity:1; transform:translateY(-50%) translateX(0); }
   @media(max-width:768px){ .pinboard{ display:none; } }
 
-  /* ============ Music player ============ */
   .player{
     position:fixed; left:18px; bottom:18px; z-index:900;
     background:linear-gradient(160deg,#5a373f,var(--plum));
@@ -115,7 +112,6 @@
   .player button:hover{ background:rgba(212,166,87,.35); border-color:var(--gold); }
   @keyframes spin{ to{ transform:rotate(360deg); } }
 
-  /* ============ Cover ============ */
   .cover{
     min-height:100vh; width:100%;
     display:flex; align-items:center; justify-content:center;
@@ -187,7 +183,6 @@
   .scroll-cue{ margin-top:28px; font-family:'Caveat',cursive; font-size:16px; color:#a17e83; animation:bobtext 2.2s ease-in-out infinite; }
   @keyframes bobtext{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(6px);} }
 
-  /* ============ Pages ============ */
   .page{
     min-height:100vh; width:100%;
     display:flex; align-items:center; justify-content:center;
@@ -208,7 +203,6 @@
   }
   .leaf.show{ opacity:1; transform:translateY(0) rotate(-.4deg); }
 
-  /* folded corner */
   .leaf::after{
     content:""; position:absolute; right:0; bottom:0; width:34px; height:34px;
     background:linear-gradient(135deg, var(--paper-edge) 50%, transparent 51%);
@@ -233,7 +227,6 @@
   .divider{ width:130px; height:16px; margin:8px 0 26px; opacity:.7; }
   .leaf p.body-text{ font-size:17px; line-height:1.75; color:var(--ink); }
 
-  /* Polaroids */
   .polaroids{ display:flex; flex-wrap:wrap; gap:28px; margin:30px 0; justify-content:center; }
   .polaroid{
     background:#fffefb; padding:12px 12px 36px;
@@ -257,11 +250,9 @@
   .polaroid img{ width:100%; height:100%; object-fit:contain; display:block; }
   .polaroid .cap{ font-family:'Caveat',cursive; font-size:19px; text-align:center; margin-top:9px; color:var(--plum); }
 
-  /* placeholder illustration inside empty frames */
   .ph-illustration{ width:56%; height:56%; opacity:.55; }
   .ph-caption{ position:absolute; bottom:8px; left:0; right:0; text-align:center; font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.05em; color:rgba(74,46,53,.45); }
 
-  /* Single feature photo */
   .feature-photo{
     width:min(440px,92%); margin:22px auto 0; padding:16px 16px 44px; background:#fffefb;
     box-shadow:0 18px 34px rgba(0,0,0,.22); transform:rotate(-2deg); position:relative;
@@ -278,7 +269,6 @@
   .feature-photo img{ width:100%; height:100%; object-fit:contain; }
   .feature-photo .cap{ font-family:'Caveat',cursive; font-size:21px; text-align:center; margin-top:12px; }
 
-  /* Video notes */
   .video-grid{ display:flex; flex-wrap:wrap; gap:26px; margin:26px 0; justify-content:center; }
   .video-card{ width:236px; background:#fffefb; padding:11px 11px 32px; box-shadow:0 14px 26px rgba(0,0,0,.2); transform:rotate(-2deg); position:relative; }
   .video-card::before{
@@ -290,7 +280,6 @@
   .video-card video{ width:100%; aspect-ratio:4/3; background:#2b1c1f; display:block; border-radius:2px; }
   .video-card .cap{ font-family:'Caveat',cursive; font-size:19px; text-align:center; margin-top:9px; color:var(--plum); }
 
-  /* Gallery filmstrip */
   .filmstrip-wrap{
     overflow:hidden; margin-top:32px; padding:16px 0;
     background:linear-gradient(160deg,#5a373f,var(--plum)); border-radius:10px;
@@ -313,7 +302,6 @@
   .filmstrip .frame img{ width:100%; height:100%; object-fit:cover; }
   @keyframes reel{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
 
-  /* ============ Finale ============ */
   .finale{ background:linear-gradient(165deg, var(--rose), var(--rose-deep) 70%); color:#fff; text-align:center; }
   .finale .leaf{ background:rgba(255,255,255,.1); backdrop-filter:blur(8px); box-shadow:0 24px 60px rgba(74,46,53,.35); }
   .finale .leaf::after{ display:none; }
@@ -350,7 +338,6 @@
   .envelope.open .env-seal{ opacity:0; transition:opacity .3s; }
   .hint{ font-size:13px; opacity:.9; margin-top:16px; font-family:'Space Mono',monospace; }
 
-  /* ============ MODAL ============ */
   .modal-overlay{
     position:fixed; inset:0; background:rgba(30,15,18,.6); backdrop-filter:blur(5px);
     z-index:9999; display:flex; align-items:center; justify-content:center;
@@ -379,13 +366,11 @@
 
   @media(max-width:768px){ .modal-box{ padding:28px 22px 32px; font-size:18px; max-width:92%; } }
 
-  /* ============ Bunting ============ */
   .bunting-strip{ position:fixed; top:0; left:0; width:100%; height:34px; z-index:850; pointer-events:none; }
   .bunting-strip .string{ position:absolute; top:6px; left:0; width:100%; height:2px; background:repeating-linear-gradient(90deg, rgba(74,46,53,.4) 0 8px, transparent 8px 14px); }
   .flag{ position:absolute; top:6px; width:20px; height:24px; clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top center; animation:sway 2.8s ease-in-out infinite; }
   @keyframes sway{ 0%,100%{ transform:rotate(-6deg);} 50%{ transform:rotate(6deg);} }
 
-  /* ============ Side decorations ============ */
   .side-decor{ position:fixed; inset:0; pointer-events:none; z-index:4; overflow:hidden; }
   .balloon{ position:absolute; width:44px; height:56px; border-radius:50% 50% 50% 50%/45% 45% 55% 55%; box-shadow:inset -6px -6px 10px rgba(0,0,0,.12), inset 6px 6px 10px rgba(255,255,255,.3); animation:bob 5.5s ease-in-out infinite; }
   .balloon::before{ content:""; position:absolute; left:50%; top:100%; width:0; height:0; transform:translateX(-50%); border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid inherit; }
@@ -421,7 +406,6 @@
   }
   @media(prefers-reduced-motion: reduce){ *{ animation-duration:.01ms !important; transition-duration:.01ms !important; } }
 
-  /* ============ INTRO: age flip + cake cut ============ */
   body.intro-active{ overflow:hidden; height:100vh; }
   .intro-overlay{
     position:fixed; inset:0; z-index:99999;
@@ -442,7 +426,6 @@
   .intro-stage.stage-in{ opacity:1; transform:translateY(0) scale(1); }
   .intro-stage.stage-pending{ opacity:0; transform:translateY(18px) scale(.94); }
 
-  /* drifting ambient particles inside the intro overlay */
   .intro-particle{
     position:absolute; pointer-events:none; color:rgba(255,224,138,.55);
     animation:introDrift linear infinite;
@@ -456,7 +439,6 @@
 
   .intro-eyebrow{ font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; opacity:.9; }
 
-  /* ============ Celebration burst stage (plays before the cake-cut stage) ============ */
   .celebrate-stage{ position:relative; width:min(92vw,480px); min-height:260px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
   .celebrate-bg-pulse{
     position:absolute; inset:-40px; z-index:-1; border-radius:50%;
@@ -481,7 +463,6 @@
 
   .celebrate-emoji-row{ margin-top:16px; font-size:clamp(26px,6vw,40px); opacity:0; animation:wordPop .6s cubic-bezier(.2,1.8,.4,1) forwards; }
 
-  /* balloons rising through the celebration stage */
   .celeb-balloon{
     position:absolute; bottom:-60px; width:38px; height:48px;
     border-radius:50% 50% 50% 50%/45% 45% 55% 55%;
@@ -490,11 +471,9 @@
   }
   @keyframes celebRise{ 0%{ transform:translateY(0) rotate(-4deg); opacity:0; } 10%{ opacity:.95; } 100%{ transform:translateY(-340px) rotate(4deg); opacity:0; } }
 
-  /* confetti drifting inside the celebration stage */
   .celeb-confetti{ position:absolute; top:-20px; pointer-events:none; animation:celebFall linear forwards; }
   @keyframes celebFall{ 0%{ transform:translateY(0) rotate(0deg); opacity:1; } 100%{ transform:translateY(340px) rotate(360deg); opacity:.2; } }
 
-  /* flip-clock style age card */
   .age-card-wrap{ position:relative; }
   .age-label{
     display:inline-block; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.25em;
@@ -548,7 +527,6 @@
 
   .cake-cut-stage{ position:relative; width:200px; height:196px; margin:26px auto 4px; cursor:pointer; }
 
-  /* plate under the cake */
   .cc-plate{
     position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
     width:180px; height:26px; border-radius:50%;
@@ -556,7 +534,6 @@
     box-shadow:0 10px 18px rgba(0,0,0,.35), inset 0 -2px 4px rgba(0,0,0,.08);
   }
 
-  /* twinkling stars floating around the cake, fade once cut */
   .cake-twinkle{ position:absolute; font-size:14px; color:#ffe6a0; animation:twinkle 1.8s ease-in-out infinite; transition:opacity .4s ease; }
   @keyframes twinkle{ 0%,100%{ opacity:.25; transform:scale(.8);} 50%{ opacity:1; transform:scale(1.15);} }
   .cake-cut-stage.cut .cake-twinkle{ opacity:0; }
@@ -579,7 +556,6 @@
   .cc-flame{ position:absolute; bottom:140px; left:50%; width:10px; height:14px; background:radial-gradient(circle,#ffe08a,#ff9d3d 70%); border-radius:50%/65% 65% 35% 35%; transform:translateX(-50%); animation:flicker 1.4s ease-in-out infinite; }
   .cake-cut-stage.cut .cc-flame, .cake-cut-stage.cut .cc-candle{ opacity:0; transition:opacity .3s ease; }
 
-  /* smoke wisp once the candle goes out */
   .cc-smoke{
     position:absolute; bottom:140px; left:50%; width:5px; height:5px; transform:translateX(-50%);
     border-radius:50%; background:rgba(230,225,220,0); opacity:0; pointer-events:none;
@@ -606,7 +582,6 @@
 
   .intro-hint{ margin-top:20px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.05em; color:#ffe4ea; opacity:.9; animation:bobtext 2s ease-in-out infinite; }
 
-  /* bokeh depth lights drifting behind the intro */
   .bokeh{
     position:absolute; border-radius:50%; filter:blur(2px);
     background:radial-gradient(circle at 35% 30%, rgba(255,224,138,.5), rgba(255,224,138,0) 70%);
@@ -618,11 +593,9 @@
     50%{ transform:translateY(-26px) scale(1.15); opacity:.85; }
   }
 
-  /* 3D tilt wrappers (perspective parents; JS rotates the child on mousemove) */
   .tilt-wrap{ perspective:900px; }
   .tilt-target{ transition:transform .25s ease-out; transform-style:preserve-3d; }
 
-  /* breathing glow ring behind the cake, calms once cut */
   .cake-glow-ring{
     position:absolute; left:50%; top:60%; transform:translate(-50%,-50%);
     width:170px; height:170px; border-radius:50%;
@@ -632,27 +605,20 @@
   @keyframes ringBreathe{ 0%,100%{ opacity:.5; transform:translate(-50%,-50%) scale(.92);} 50%{ opacity:.9; transform:translate(-50%,-50%) scale(1.08);} }
   .cake-cut-stage.cut ~ .cake-glow-ring, .cake-cut-stage.cut .cake-glow-ring{ animation-play-state:paused; opacity:0; transition:opacity .5s ease; }
 
-  /* bouncing letters for the Happy Birthday headline */
   .intro-hbd .ch{
     display:inline-block; opacity:0; transform:translateY(-16px);
     animation:letterBounce .6s cubic-bezier(.28,1.6,.5,1) forwards;
   }
   @keyframes letterBounce{ to{ opacity:1; transform:translateY(0); } }
 
-
-  /* ============ Advanced polish ============ */
-
-  /* top scroll-progress bar (also visible on mobile, where the pinboard is hidden) */
   .progress-rail{ position:fixed; top:0; left:0; width:100%; height:3px; z-index:920; background:rgba(74,46,53,.08); }
   .progress-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--rose-deep)); box-shadow:0 0 8px rgba(212,166,87,.5); transition:width .1s linear; }
 
-  /* cinematic vignette on the cover */
   .cover::before{
     content:""; position:absolute; inset:0; pointer-events:none; z-index:1;
     box-shadow:inset 0 0 140px rgba(74,46,53,.22);
   }
 
-  /* letter-by-letter title reveal */
   .cover h1{ display:inline-flex; }
   .cover h1 .ch{
     display:inline-block; opacity:0; transform:translateY(22px) rotate(4deg);
@@ -660,13 +626,11 @@
   }
   @keyframes letterUp{ to{ opacity:1; transform:translateY(0) rotate(0deg); } }
 
-  /* corner flourishes on every leaf page */
   .corner-flourish{ position:absolute; width:46px; height:46px; opacity:.55; pointer-events:none; }
   .corner-flourish.tl{ top:16px; left:16px; }
   .corner-flourish.br{ bottom:16px; right:16px; transform:rotate(180deg); }
   .finale .corner-flourish{ opacity:.35; }
 
-  /* staggered reveal for polaroids / video cards / feature photos once the leaf is shown */
   .polaroid, .video-card{ opacity:0; transform:translateY(24px) scale(.96); transition:opacity .6s ease, transform .6s ease; }
   .leaf.show .polaroid, .leaf.show .video-card{ opacity:1; transform:translateY(0) scale(1); }
   .leaf.show .polaroid:nth-child(1), .leaf.show .video-card:nth-child(1){ transition-delay:.15s; }
@@ -675,12 +639,10 @@
   .feature-photo{ opacity:0; transform:translateY(20px) rotate(-2deg) scale(.97); transition:opacity .7s ease, transform .7s ease; }
   .leaf.show .feature-photo{ opacity:1; transform:translateY(0) rotate(-2deg) scale(1); }
 
-  /* re-apply correct final rotation per polaroid (the transform above overrides the base rotate, so restate it) */
   .leaf.show .polaroid:nth-child(1){ transform:rotate(-4deg); }
   .leaf.show .polaroid:nth-child(2){ transform:rotate(3deg); }
   .leaf.show .polaroid:nth-child(3){ transform:rotate(-2deg); }
 
-  /* cursor sparkle trail */
   .cursor-spark{
     position:fixed; z-index:850; pointer-events:none; font-size:13px;
     color:var(--gold-deep); opacity:.9;
@@ -756,7 +718,7 @@
   </div>
 </div>
 
-<audio id="bgMusic" loop autoplay muted playsinline></audio>
+<audio id="bgMusic" loop preload="auto"></audio>
 
 <div class="player" id="player">
   <div class="reel"></div>
@@ -999,397 +961,143 @@
 </div>
 
 <script>
-  /* ============ Advanced polish: title letters, corner flourishes, progress bar, sparkle trail ============ */
-  (function(){
-    // letter-by-letter title reveal
-    const titleEl = document.querySelector(".cover h1");
-    if(titleEl){
-      const text = titleEl.textContent;
-      titleEl.innerHTML = "";
-      [...text].forEach((ch,i)=>{
-        const span = document.createElement("span");
-        span.className = "ch";
-        span.textContent = ch === " " ? "\u00A0" : ch;
-        span.style.animationDelay = (0.15 + i*0.07) + "s";
-        titleEl.appendChild(span);
-      });
-    }
+  /* ============ MUSIC PLAYER - COMPLETE AUTOPLAY FIX ============ */
 
-    // bouncing letters for the Happy Birthday headline (keeps the <br> intact)
-    const hbdTitle = document.getElementById("hbdTitle");
-    if(hbdTitle){
-      let idx = 0;
-      const frag = document.createDocumentFragment();
-      hbdTitle.childNodes.forEach(node=>{
-        if(node.nodeType === Node.TEXT_NODE){
-          [...node.textContent].forEach(ch=>{
-            const span = document.createElement("span");
-            span.className = "ch";
-            span.textContent = ch === " " ? "\u00A0" : ch;
-            span.style.animationDelay = (idx*0.045) + "s";
-            idx++;
-            frag.appendChild(span);
-          });
-        } else {
-          frag.appendChild(node.cloneNode(true));
-        }
-      });
-      hbdTitle.innerHTML = "";
-      hbdTitle.appendChild(frag);
-    }
-
-    // 3D tilt for the age card and the cake, following the pointer
-    if(window.matchMedia("(hover:hover)").matches){
-      document.addEventListener("mousemove", (e)=>{
-        document.querySelectorAll(".tilt-target").forEach(el=>{
-          if(!el.offsetParent) return; // skip hidden stages
-          const rect = el.getBoundingClientRect();
-          const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
-          const dx = (e.clientX - cx) / (rect.width/2);
-          const dy = (e.clientY - cy) / (rect.height/2);
-          const rx = Math.max(-1,Math.min(1,-dy)) * 8;
-          const ry = Math.max(-1,Math.min(1,dx)) * 8;
-          el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
-        });
-      });
-    }
-
-    const flourishSVG = `<svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M4 42 C4 20 20 4 42 4" stroke="#92A87E" stroke-width="1.3"/>
-      <path d="M4 42 C4 28 12 18 24 15" stroke="#D4A657" stroke-width="1.1"/>
-      <circle cx="4" cy="42" r="2.4" fill="#C85C77"/>
-    </svg>`;
-    document.querySelectorAll(".leaf").forEach(leaf=>{
-      const tl = document.createElement("div"); tl.className = "corner-flourish tl"; tl.innerHTML = flourishSVG;
-      const br = document.createElement("div"); br.className = "corner-flourish br"; br.innerHTML = flourishSVG;
-      leaf.appendChild(tl); leaf.appendChild(br);
-    });
-
-    // scroll progress bar
-    const fill = document.getElementById("progressFill");
-    function updateProgress(){
-      const doc = document.documentElement;
-      const pct = doc.scrollTop / ((doc.scrollHeight - doc.clientHeight) || 1) * 100;
-      fill.style.width = pct + "%";
-    }
-    window.addEventListener("scroll", updateProgress, { passive:true });
-    updateProgress();
-
-    // cursor sparkle trail (desktop only, throttled)
-    if(window.matchMedia("(hover:hover)").matches){
-      const sparkSymbols = ["✦","✿","·"];
-      let lastSpark = 0;
-      window.addEventListener("mousemove", (e)=>{
-        const now = Date.now();
-        if(now - lastSpark < 90) return;
-        lastSpark = now;
-        const s = document.createElement("div");
-        s.className = "cursor-spark";
-        s.textContent = sparkSymbols[Math.floor(Math.random()*sparkSymbols.length)];
-        s.style.left = (e.clientX + (Math.random()*10-5)) + "px";
-        s.style.top = (e.clientY + (Math.random()*10-5)) + "px";
-        document.body.appendChild(s);
-        setTimeout(()=> s.remove(), 900);
-      });
-    }
-  })();
-
-  /* ============ Config ============ */
   const musicFolder = "music/";
-  // one merged song plays throughout the whole site; the birthday song only
-  // plays for the cake-cutting moment, then it hands back to the main song.
   const MAIN_SONG = "song.mp3";
   const BIRTHDAY_SONG = "birthday.mp3";
   const galleryCount = 12;
 
-  /* ============ Placeholder illustrations (used when a real photo is missing) ============ */
-  const icons = {
-    camera: `<svg class="ph-illustration" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="6" y="18" width="52" height="34" rx="5"/><circle cx="32" cy="35" r="11"/><circle cx="32" cy="35" r="4.5" fill="currentColor" stroke="none"/><rect x="22" y="10" width="20" height="8" rx="2"/></svg>`,
-    heart:  `<svg class="ph-illustration" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M32 54 C10 40 4 26 14 17 C21 11 30 14 32 22 C34 14 43 11 50 17 C60 26 54 40 32 54 Z"/></svg>`,
-    star:   `<svg class="ph-illustration" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 8 L38 26 L57 26 L42 38 L47 56 L32 45 L17 56 L22 38 L7 26 L26 26 Z"/></svg>`,
-    baby:   `<svg class="ph-illustration" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="32" cy="26" r="14"/><path d="M14 52 C14 40 22 34 32 34 C42 34 50 40 50 52" /><path d="M24 24 Q32 30 40 24"/></svg>`,
-    school: `<svg class="ph-illustration" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 10 L58 22 L32 34 L6 22 Z"/><path d="M18 27 V42 C18 46 25 50 32 50 C39 50 46 46 46 42 V27"/><path d="M58 22 V38"/></svg>`
-  };
-  function fallbackIllustration(kind, label){
-    const icon = icons[kind] || icons.camera;
-    return `${icon}<span class="ph-caption">${label || 'add photo'}</span>`;
-  }
-  function wireImageFallbacks(){
-    document.querySelectorAll('img[data-fallback]').forEach(img=>{
-      img.addEventListener('error', ()=>{
-        const kind = img.dataset.fallback;
-        img.parentElement.innerHTML = fallbackIllustration(kind, 'add photo');
-      }, { once:true });
-    });
-  }
-  wireImageFallbacks();
-
-  /* ============ Ambient floating hearts ============ */
-  const heartField = document.getElementById("heartField");
-  const heartColors = ["#E8879B","#D4A657","#92A87E","#C85C77"];
-  const heartSymbols = ["❤","✿","✦"];
-  for(let i=0;i<18;i++){
-    const h = document.createElement("div");
-    h.className = "floating-heart";
-    h.textContent = heartSymbols[i % heartSymbols.length];
-    h.style.left = (Math.random()*94 + 2) + "vw";
-    h.style.fontSize = (Math.random()*14 + 14) + "px";
-    h.style.color = heartColors[i % heartColors.length];
-    h.style.animationDuration = (Math.random()*10 + 12) + "s";
-    h.style.animationDelay = (Math.random()*14) + "s";
-    heartField.appendChild(h);
-  }
-  const bunting = document.getElementById("bunting");
-  const flagColors = ["var(--rose)","var(--gold)","var(--sage)","var(--rose-deep)"];
-  const flagCount = 26;
-  for(let i=0;i<flagCount;i++){
-    const f = document.createElement("div");
-    f.className = "flag";
-    f.style.left = (i*(100/flagCount)) + "%";
-    f.style.background = flagColors[i % flagColors.length];
-    f.style.animationDelay = (i*0.12) + "s";
-    bunting.appendChild(f);
-  }
-
-  /* ============ Music ============ */
-  const music = document.getElementById("bgMusic");
-  const player = document.getElementById("player");
-  const musicToggleBtn = document.getElementById("musicToggleBtn");
+  const music = document.getElementById('bgMusic');
   let userUnmuted = false;
+  let birthdaySongPlayed = false;
+  let mainSongStarted = false;
 
   function playMainSong(){
+    if (mainSongStarted) return;
+    mainSongStarted = true;
+    
     music.src = musicFolder + MAIN_SONG;
     music.muted = false;
     music.volume = 0.5;
-    music.play().then(()=>{ player.classList.add("playing"); userUnmuted = true; }).catch(()=>{});
+    music.loop = true;
+    
+    const playPromise = music.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => { 
+          player.classList.add("playing"); 
+          userUnmuted = true;
+          console.log("🎵 Main song playing!");
+        })
+        .catch(() => {});
+    }
   }
 
   function playBirthdaySong(){
-  // Create a new audio element or use existing one
-  if (!music) {
-    music = document.getElementById('bgMusic');
+    if (birthdaySongPlayed) return;
+    birthdaySongPlayed = true;
+    
+    // Stop current song
+    music.pause();
+    
+    // Set birthday song
+    music.src = musicFolder + BIRTHDAY_SONG;
+    music.muted = false;
+    music.volume = 0.7;
+    music.loop = false;
+    
+    const playPromise = music.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => { 
+          player.classList.add("playing"); 
+          userUnmuted = true;
+          console.log("🎵 Birthday song playing!");
+          
+          // When birthday song ends, switch to main song
+          music.onended = function() {
+            playMainSong();
+          };
+        })
+        .catch(() => {
+          console.log("⛔ Autoplay blocked - will try on user interaction");
+          // Try again on any user interaction
+          const tryPlayOnInteraction = function() {
+            music.play()
+              .then(() => {
+                player.classList.add("playing");
+                userUnmuted = true;
+                console.log("🎵 Birthday song playing after user interaction!");
+                music.onended = function() {
+                  playMainSong();
+                };
+                document.removeEventListener('click', tryPlayOnInteraction);
+                document.removeEventListener('touchstart', tryPlayOnInteraction);
+              })
+              .catch(() => {});
+          };
+          document.addEventListener('click', tryPlayOnInteraction);
+          document.addEventListener('touchstart', tryPlayOnInteraction);
+        });
+    }
   }
-  
-  // Stop current song if playing
-  music.pause();
-  
-  // Set birthday song
-  music.src = musicFolder + BIRTHDAY_SONG;
-  music.muted = false;
-  music.volume = 0.7;
-  music.loop = false; // Don't loop birthday song
-  
-  // Try to play
-  music.play()
-    .then(() => { 
-      player.classList.add("playing"); 
-      userUnmuted = true;
-      console.log("Birthday song playing!");
-    })
-    .catch(err => { 
-      console.log("Autoplay blocked:", err);
-      // Show a manual play button
-      showPlayButton();
-    });
-}
 
-function showPlayButton() {
-  const btn = document.createElement('button');
-  btn.textContent = '🔊 Play Birthday Song';
-  btn.style.cssText = `
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 999999;
-    background: var(--rose-deep);
-    color: white;
-    border: none;
-    padding: 20px 40px;
-    border-radius: 30px;
-    font-size: 24px;
-    font-family: 'Karla', sans-serif;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    animation: pulse 2s ease-in-out infinite;
-  `;
-  btn.onclick = function() {
-    music.play()
-      .then(() => {
-        player.classList.add("playing");
-        btn.remove();
-      })
-      .catch(e => console.log("Still can't play:", e));
-  };
-  document.body.appendChild(btn);
-}
-  
   function toggleMainSong(){
     if(music.paused || music.muted){
       music.muted = false;
-      if(!music.src) music.src = musicFolder + MAIN_SONG;
-      music.play().then(()=>{ player.classList.add("playing"); userUnmuted = true; }).catch(()=>{});
+      if(!music.src) {
+        music.src = musicFolder + MAIN_SONG;
+        mainSongStarted = true;
+      }
+      music.play().then(()=>{ 
+        player.classList.add("playing"); 
+        userUnmuted = true; 
+      }).catch(()=>{});
     } else {
       music.pause();
       player.classList.remove("playing");
     }
   }
 
-  /* Browsers block unmuted autoplay with no user gesture, so: start the main
-     song muted right away (this IS allowed everywhere), then unmute the instant
-     any interaction happens — a tap, a key, a scroll, even a mouse move — so it
-     feels instant without ever showing a blocked-autoplay silence. */
-  music.src = musicFolder + MAIN_SONG;
-  music.volume = 0.5;
-  music.muted = true;
-  const mutedPlayAttempt = music.play();
-  if(mutedPlayAttempt){ mutedPlayAttempt.then(()=> player.classList.add("playing")).catch(()=>{}); }
-
+  /* ============ UNMUTE ON FIRST GESTURE ============ */
   function unmuteOnFirstGesture(){
     if(userUnmuted) return;
     userUnmuted = true;
     music.muted = false;
     music.play().then(()=> player.classList.add("playing")).catch(()=>{});
   }
-  ["pointerdown","touchstart","keydown","scroll","mousemove"].forEach(evt=>
+  ["pointerdown","touchstart","keydown","click"].forEach(evt=>
     document.addEventListener(evt, unmuteOnFirstGesture, { once:true, passive:true })
   );
 
-  /* ============ Intro: age flip -> happy birthday cake stage (with bouncing text + balloons/confetti built in) ============ */
-  const introOverlay = document.getElementById('introOverlay');
-  const introStage1 = document.getElementById('introStage1');
-  const introStage2 = document.getElementById('introStage2');
-  const celebrateStage = document.getElementById('celebrateStage');
-  const ageCounter = document.getElementById('ageCounter');
-  const ageCardWrap = document.querySelector('.age-card-wrap');
-  const cakeCutStage = document.getElementById('cakeCutStage');
-
-  // a few slow drifting particles inside the overlay for atmosphere
-  (function seedIntroParticles(){
-    const syms = ["✦","✿","·","❤"];
-    for(let i=0;i<10;i++){
-      const p = document.createElement("div");
-      p.className = "intro-particle";
-      p.textContent = syms[i % syms.length];
-      p.style.left = (Math.random()*90 + 5) + "%";
-      p.style.bottom = "-10%";
-      p.style.fontSize = (Math.random()*10 + 10) + "px";
-      p.style.animationDuration = (Math.random()*6 + 7) + "s";
-      p.style.animationDelay = (Math.random()*6) + "s";
-      introOverlay.appendChild(p);
-    }
-  })();
-
-  function sparkleBurst(container, count){
-    for(let i=0;i<count;i++){
-      const s = document.createElement("div");
-      s.className = "age-sparkle";
-      const angle = Math.random()*Math.PI*2;
-      const dist = 40 + Math.random()*40;
-      s.style.setProperty('--sx', (Math.cos(angle)*dist) + 'px');
-      s.style.setProperty('--sy', (Math.sin(angle)*dist - 20) + 'px');
-      s.style.left = "50%"; s.style.top = "50%";
-      s.style.animationDelay = (Math.random()*0.15) + "s";
-      container.appendChild(s);
-      setTimeout(()=> s.remove(), 1100);
-    }
-  }
-
-  // generic crossfade between any two intro stages
-  function crossfadeStage(fromEl, toEl, gap){
-    fromEl.classList.remove('stage-in');
-    fromEl.classList.add('stage-out');
-    setTimeout(()=>{
-      fromEl.style.display = 'none';
-      toEl.style.display = 'flex';
-      requestAnimationFrame(()=>{
-        toEl.classList.remove('stage-pending');
-        toEl.classList.add('stage-in');
-      });
-    }, gap || 500);
-  }
-
-  // balloons + confetti rising/falling behind the cake-cut stage's bouncing text
-  function fillCelebrationStage(){
-    const balloonColors = ["#E8879B","#D4A657","#92A87E","#C85C77"];
-    for(let i=0;i<7;i++){
-      const b = document.createElement("div");
-      b.className = "celeb-balloon";
-      b.style.left = (8 + i*13 + Math.random()*6) + "%";
-      b.style.background = balloonColors[i % balloonColors.length];
-      b.style.animationDuration = (2.6 + Math.random()*1.2) + "s";
-      b.style.animationDelay = (Math.random()*0.6) + "s";
-      celebrateStage.appendChild(b);
-    }
-    const confColors = ["#FF5D8F","#FFC93C","#4DB6AC","#5B8DEF","#C780FA"];
-    for(let i=0;i<18;i++){
-      const c = document.createElement("div");
-      c.className = "celeb-confetti";
-      c.textContent = "●";
-      c.style.left = (Math.random()*94 + 3) + "%";
-      c.style.color = confColors[i % confColors.length];
-      c.style.fontSize = (Math.random()*6 + 6) + "px";
-      c.style.animationDuration = (1.6 + Math.random()*1.2) + "s";
-      c.style.animationDelay = (Math.random()*0.8) + "s";
-      celebrateStage.appendChild(c);
-    }
-  }
+  /* ============ INTRO FUNCTIONS WITH AUTOPLAY BIRTHDAY SONG ============ */
 
   function runIntro(){
-  // Add a one-time click listener to the whole page to enable audio
-  const enableAudio = function() {
-    if (userUnmuted) return;
-    userUnmuted = true;
-    music.muted = false;
-    // Try to play the birthday song immediately on first click
-    playBirthdaySong();
-    document.removeEventListener('click', enableAudio);
-    document.removeEventListener('touchstart', enableAudio);
-  };
-  
-  document.addEventListener('click', enableAudio);
-  document.addEventListener('touchstart', enableAudio);
-  
-  // flip the age from 24 to 25
-  setTimeout(()=>{
-    ageCounter.classList.add('flip');
-    sparkleBurst(ageCardWrap, 8);
-    
-    // Try to play birthday song
-    // If user already interacted, this will work
-    playBirthdaySong();
-    
-    setTimeout(()=>{ ageCounter.textContent = '25'; }, 320);
-    setTimeout(()=>{ ageCounter.classList.remove('flip'); }, 660);
-  }, 1000);
+    // Play birthday song at the right moment
+    setTimeout(() => {
+      playBirthdaySong();
+    }, 100);
 
-  setTimeout(()=>{
-    fillCelebrationStage();
-    crossfadeStage(introStage1, introStage2, 500);
-  }, 2500);
-}
-  function crumbBurst(originEl){
-    const rect = originEl.getBoundingClientRect();
-    const colors = ["#f3ceb8","#e8c39a","#fff5e6","#d9a441"];
-    for(let i=0;i<24;i++){
-      const c = document.createElement("div");
-      c.style.position = "fixed";
-      c.style.left = (rect.left + rect.width/2) + "px";
-      c.style.top = (rect.top + rect.height*0.55) + "px";
-      c.style.width = c.style.height = (Math.random()*5+3) + "px";
-      c.style.borderRadius = "50%";
-      c.style.background = colors[Math.floor(Math.random()*colors.length)];
-      c.style.zIndex = 100000; c.style.pointerEvents = "none";
-      document.body.appendChild(c);
-      const dx = (Math.random()*140-70), dy = (Math.random()*-90-20);
-      const anim = c.animate([
-        { transform:"translate(0,0)", opacity:1 },
-        { transform:`translate(${dx}px, ${dy}px)`, opacity:1, offset:.5 },
-        { transform:`translate(${dx*1.3}px, ${dy*-1+70}px)`, opacity:0 }
-      ], { duration: 900+Math.random()*400, easing:"cubic-bezier(.3,.6,.4,1)" });
-      anim.onfinish = ()=> c.remove();
-    }
+    // Flip the age from 24 to 25
+    setTimeout(()=>{
+      ageCounter.classList.add('flip');
+      sparkleBurst(ageCardWrap, 8);
+      
+      // Also try playing birthday song again when age flips
+      if (!birthdaySongPlayed) {
+        playBirthdaySong();
+      }
+      
+      setTimeout(()=>{ ageCounter.textContent = '25'; }, 320);
+      setTimeout(()=>{ ageCounter.classList.remove('flip'); }, 660);
+    }, 1000);
+
+    // Cross-fade to celebration stage
+    setTimeout(()=>{
+      fillCelebrationStage();
+      crossfadeStage(introStage1, introStage2, 500);
+    }, 2500);
   }
 
   let cakeCut = false;
@@ -1399,18 +1107,28 @@ function showPlayButton() {
     cakeCutStage.classList.add('cut');
     crumbBurst(cakeCutStage);
     confettiBurst();
-    playBirthdaySong(); // the one moment that gets its own song
+    
+    // Make sure birthday song is still playing
+    if (music.paused && !mainSongStarted) {
+      music.play().catch(() => {});
+    }
+    
     setTimeout(()=>{
       introOverlay.classList.add('hide');
       document.body.classList.remove('intro-active');
       setTimeout(()=>{ introOverlay.remove(); }, 950);
     }, 900);
-    // once the birthday song has had its moment, hand back to the single main song
-    setTimeout(()=>{ playMainSong(); }, 8000);
+    
+    // Switch to main song after birthday song ends or after 15 seconds
+    setTimeout(()=>{ 
+      if (!mainSongStarted) {
+        playMainSong();
+      }
+    }, 15000);
   }
+
   cakeCutStage.addEventListener('click', performCakeCut);
 
-  // also allow a quick swipe/drag across the cake to cut it, like a real knife stroke
   let swipeStartX = null, swipeStartY = null;
   cakeCutStage.addEventListener('pointerdown', (e)=>{ swipeStartX = e.clientX; swipeStartY = e.clientY; });
   cakeCutStage.addEventListener('pointermove', (e)=>{
@@ -1442,7 +1160,7 @@ function showPlayButton() {
   });
   const pins = document.querySelectorAll(".pin");
 
-  /* ============ Scroll observer: reveal + active pin (single song plays throughout, no per-chapter switching) ============ */
+  /* ============ Scroll observer ============ */
   const leaves = document.querySelectorAll(".leaf");
   const chapterObserver = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
@@ -1483,7 +1201,202 @@ function showPlayButton() {
   modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
 
-  /* ============ Confetti ============ */
+  /* ============ Helper functions ============ */
+
+  const icons = {
+    camera: `<svg class="ph-illustration" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="6" y="18" width="52" height="34" rx="5"/><circle cx="32" cy="35" r="11"/><circle cx="32" cy="35" r="4.5" fill="currentColor" stroke="none"/><rect x="22" y="10" width="20" height="8" rx="2"/></svg>`,
+    heart:  `<svg class="ph-illustration" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M32 54 C10 40 4 26 14 17 C21 11 30 14 32 22 C34 14 43 11 50 17 C60 26 54 40 32 54 Z"/></svg>`,
+    star:   `<svg class="ph-illustration" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 8 L38 26 L57 26 L42 38 L47 56 L32 45 L17 56 L22 38 L7 26 L26 26 Z"/></svg>`,
+    baby:   `<svg class="ph-illustration" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="32" cy="26" r="14"/><path d="M14 52 C14 40 22 34 32 34 C42 34 50 40 50 52" /><path d="M24 24 Q32 30 40 24"/></svg>`,
+    school: `<svg class="ph-illustration" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M32 10 L58 22 L32 34 L6 22 Z"/><path d="M18 27 V42 C18 46 25 50 32 50 C39 50 46 46 46 42 V27"/><path d="M58 22 V38"/></svg>`
+  };
+  function fallbackIllustration(kind, label){
+    const icon = icons[kind] || icons.camera;
+    return `${icon}<span class="ph-caption">${label || 'add photo'}</span>`;
+  }
+  function wireImageFallbacks(){
+    document.querySelectorAll('img[data-fallback]').forEach(img=>{
+      img.addEventListener('error', ()=>{
+        const kind = img.dataset.fallback;
+        img.parentElement.innerHTML = fallbackIllustration(kind, 'add photo');
+      }, { once:true });
+    });
+  }
+  wireImageFallbacks();
+
+  /* ============ Ambient floating hearts ============ */
+  const heartField = document.getElementById("heartField");
+  const heartColors = ["#E8879B","#D4A657","#92A87E","#C85C77"];
+  const heartSymbols = ["❤","✿","✦"];
+  for(let i=0;i<18;i++){
+    const h = document.createElement("div");
+    h.className = "floating-heart";
+    h.textContent = heartSymbols[i % heartSymbols.length];
+    h.style.left = (Math.random()*94 + 2) + "vw";
+    h.style.fontSize = (Math.random()*14 + 14) + "px";
+    h.style.color = heartColors[i % heartColors.length];
+    h.style.animationDuration = (Math.random()*10 + 12) + "s";
+    h.style.animationDelay = (Math.random()*14) + "s";
+    heartField.appendChild(h);
+  }
+
+  /* ============ Bunting ============ */
+  const bunting = document.getElementById("bunting");
+  const flagColors = ["var(--rose)","var(--gold)","var(--sage)","var(--rose-deep)"];
+  const flagCount = 26;
+  for(let i=0;i<flagCount;i++){
+    const f = document.createElement("div");
+    f.className = "flag";
+    f.style.left = (i*(100/flagCount)) + "%";
+    f.style.background = flagColors[i % flagColors.length];
+    f.style.animationDelay = (i*0.12) + "s";
+    bunting.appendChild(f);
+  }
+
+  /* ============ Advanced polish ============ */
+  (function(){
+    const titleEl = document.querySelector(".cover h1");
+    if(titleEl){
+      const text = titleEl.textContent;
+      titleEl.innerHTML = "";
+      [...text].forEach((ch,i)=>{
+        const span = document.createElement("span");
+        span.className = "ch";
+        span.textContent = ch === " " ? "\u00A0" : ch;
+        span.style.animationDelay = (0.15 + i*0.07) + "s";
+        titleEl.appendChild(span);
+      });
+    }
+
+    if(window.matchMedia("(hover:hover)").matches){
+      document.addEventListener("mousemove", (e)=>{
+        document.querySelectorAll(".tilt-target").forEach(el=>{
+          if(!el.offsetParent) return;
+          const rect = el.getBoundingClientRect();
+          const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+          const dx = (e.clientX - cx) / (rect.width/2);
+          const dy = (e.clientY - cy) / (rect.height/2);
+          const rx = Math.max(-1,Math.min(1,-dy)) * 8;
+          const ry = Math.max(-1,Math.min(1,dx)) * 8;
+          el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+        });
+      });
+    }
+
+    const flourishSVG = `<svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 42 C4 20 20 4 42 4" stroke="#92A87E" stroke-width="1.3"/>
+      <path d="M4 42 C4 28 12 18 24 15" stroke="#D4A657" stroke-width="1.1"/>
+      <circle cx="4" cy="42" r="2.4" fill="#C85C77"/>
+    </svg>`;
+    document.querySelectorAll(".leaf").forEach(leaf=>{
+      const tl = document.createElement("div"); tl.className = "corner-flourish tl"; tl.innerHTML = flourishSVG;
+      const br = document.createElement("div"); br.className = "corner-flourish br"; br.innerHTML = flourishSVG;
+      leaf.appendChild(tl); leaf.appendChild(br);
+    });
+
+    const fill = document.getElementById("progressFill");
+    function updateProgress(){
+      const doc = document.documentElement;
+      const pct = doc.scrollTop / ((doc.scrollHeight - doc.clientHeight) || 1) * 100;
+      fill.style.width = pct + "%";
+    }
+    window.addEventListener("scroll", updateProgress, { passive:true });
+    updateProgress();
+
+    if(window.matchMedia("(hover:hover)").matches){
+      const sparkSymbols = ["✦","✿","·"];
+      let lastSpark = 0;
+      window.addEventListener("mousemove", (e)=>{
+        const now = Date.now();
+        if(now - lastSpark < 90) return;
+        lastSpark = now;
+        const s = document.createElement("div");
+        s.className = "cursor-spark";
+        s.textContent = sparkSymbols[Math.floor(Math.random()*sparkSymbols.length)];
+        s.style.left = (e.clientX + (Math.random()*10-5)) + "px";
+        s.style.top = (e.clientY + (Math.random()*10-5)) + "px";
+        document.body.appendChild(s);
+        setTimeout(()=> s.remove(), 900);
+      });
+    }
+  })();
+
+  function sparkleBurst(container, count){
+    for(let i=0;i<count;i++){
+      const s = document.createElement("div");
+      s.className = "age-sparkle";
+      const angle = Math.random()*Math.PI*2;
+      const dist = 40 + Math.random()*40;
+      s.style.setProperty('--sx', (Math.cos(angle)*dist) + 'px');
+      s.style.setProperty('--sy', (Math.sin(angle)*dist - 20) + 'px');
+      s.style.left = "50%"; s.style.top = "50%";
+      s.style.animationDelay = (Math.random()*0.15) + "s";
+      container.appendChild(s);
+      setTimeout(()=> s.remove(), 1100);
+    }
+  }
+
+  function crossfadeStage(fromEl, toEl, gap){
+    fromEl.classList.remove('stage-in');
+    fromEl.classList.add('stage-out');
+    setTimeout(()=>{
+      fromEl.style.display = 'none';
+      toEl.style.display = 'flex';
+      requestAnimationFrame(()=>{
+        toEl.classList.remove('stage-pending');
+        toEl.classList.add('stage-in');
+      });
+    }, gap || 500);
+  }
+
+  function fillCelebrationStage(){
+    const balloonColors = ["#E8879B","#D4A657","#92A87E","#C85C77"];
+    for(let i=0;i<7;i++){
+      const b = document.createElement("div");
+      b.className = "celeb-balloon";
+      b.style.left = (8 + i*13 + Math.random()*6) + "%";
+      b.style.background = balloonColors[i % balloonColors.length];
+      b.style.animationDuration = (2.6 + Math.random()*1.2) + "s";
+      b.style.animationDelay = (Math.random()*0.6) + "s";
+      celebrateStage.appendChild(b);
+    }
+    const confColors = ["#FF5D8F","#FFC93C","#4DB6AC","#5B8DEF","#C780FA"];
+    for(let i=0;i<18;i++){
+      const c = document.createElement("div");
+      c.className = "celeb-confetti";
+      c.textContent = "●";
+      c.style.left = (Math.random()*94 + 3) + "%";
+      c.style.color = confColors[i % confColors.length];
+      c.style.fontSize = (Math.random()*6 + 6) + "px";
+      c.style.animationDuration = (1.6 + Math.random()*1.2) + "s";
+      c.style.animationDelay = (Math.random()*0.8) + "s";
+      celebrateStage.appendChild(c);
+    }
+  }
+
+  function crumbBurst(originEl){
+    const rect = originEl.getBoundingClientRect();
+    const colors = ["#f3ceb8","#e8c39a","#fff5e6","#d9a441"];
+    for(let i=0;i<24;i++){
+      const c = document.createElement("div");
+      c.style.position = "fixed";
+      c.style.left = (rect.left + rect.width/2) + "px";
+      c.style.top = (rect.top + rect.height*0.55) + "px";
+      c.style.width = c.style.height = (Math.random()*5+3) + "px";
+      c.style.borderRadius = "50%";
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      c.style.zIndex = 100000; c.style.pointerEvents = "none";
+      document.body.appendChild(c);
+      const dx = (Math.random()*140-70), dy = (Math.random()*-90-20);
+      const anim = c.animate([
+        { transform:"translate(0,0)", opacity:1 },
+        { transform:`translate(${dx}px, ${dy}px)`, opacity:1, offset:.5 },
+        { transform:`translate(${dx*1.3}px, ${dy*-1+70}px)`, opacity:0 }
+      ], { duration: 900+Math.random()*400, easing:"cubic-bezier(.3,.6,.4,1)" });
+      anim.onfinish = ()=> c.remove();
+    }
+  }
+
   function confettiBurst(){
     const symbols = ["❤","✿","✦","🎉","🎈"];
     const colors = ["#FF5D8F","#FFC93C","#4DB6AC","#5B8DEF","#C780FA","#FF9F45","#7BC96F","#FF6B6B"];
