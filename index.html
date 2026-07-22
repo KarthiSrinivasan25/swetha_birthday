@@ -425,27 +425,120 @@
   body.intro-active{ overflow:hidden; height:100vh; }
   .intro-overlay{
     position:fixed; inset:0; z-index:99999;
-    background:linear-gradient(160deg,#5a373f,var(--plum) 60%,#3a232a);
+    background:
+      radial-gradient(circle at 50% 30%, rgba(255,224,138,.12), transparent 55%),
+      linear-gradient(160deg,#5a373f,var(--plum) 60%,#3a232a);
     display:flex; align-items:center; justify-content:center;
     color:var(--paper); text-align:center; padding:20px;
     transition:opacity .9s ease, visibility .9s ease;
+    overflow:hidden;
   }
   .intro-overlay.hide{ opacity:0; visibility:hidden; pointer-events:none; }
-  .intro-stage{ display:flex; flex-direction:column; align-items:center; }
+  .intro-stage{
+    display:flex; flex-direction:column; align-items:center;
+    transition:opacity .55s ease, transform .55s cubic-bezier(.3,.7,.3,1);
+  }
+  .intro-stage.stage-out{ opacity:0; transform:translateY(-18px) scale(.94); }
+  .intro-stage.stage-in{ opacity:1; transform:translateY(0) scale(1); }
+  .intro-stage.stage-pending{ opacity:0; transform:translateY(18px) scale(.94); }
+
+  /* drifting ambient particles inside the intro overlay */
+  .intro-particle{
+    position:absolute; pointer-events:none; color:rgba(255,224,138,.55);
+    animation:introDrift linear infinite;
+  }
+  @keyframes introDrift{
+    0%{ transform:translateY(0) rotate(0deg); opacity:0; }
+    10%{ opacity:.8; }
+    90%{ opacity:.8; }
+    100%{ transform:translateY(-90vh) rotate(180deg); opacity:0; }
+  }
 
   .intro-eyebrow{ font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; opacity:.9; }
+
+  /* ============ Celebration burst stage (plays before the cake-cut stage) ============ */
+  .celebrate-stage{ position:relative; width:min(92vw,480px); min-height:260px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .celebrate-bg-pulse{
+    position:absolute; inset:-40px; z-index:-1; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,224,138,.28), transparent 65%);
+    animation:celebratePulse 1.6s ease-in-out infinite;
+  }
+  @keyframes celebratePulse{ 0%,100%{ transform:scale(.9); opacity:.6; } 50%{ transform:scale(1.15); opacity:1; } }
+
+  .word-pop-line{ display:flex; flex-wrap:wrap; justify-content:center; gap:.35em; margin-bottom:6px; }
+  .word-pop{
+    display:inline-block; font-family:'Fraunces',serif; font-weight:700; font-style:italic;
+    font-size:clamp(28px,7vw,52px); opacity:0; transform:scale(.3) rotate(-8deg);
+    animation:wordPop .6s cubic-bezier(.2,1.8,.4,1) forwards;
+    text-shadow:0 6px 18px rgba(0,0,0,.35);
+  }
+  @keyframes wordPop{
+    0%{ opacity:0; transform:scale(.3) rotate(-8deg); }
+    60%{ opacity:1; transform:scale(1.15) rotate(3deg); }
+    100%{ opacity:1; transform:scale(1) rotate(0deg); }
+  }
+  .word-pop.c1{ color:#ffe08a; } .word-pop.c2{ color:#ff9fb3; } .word-pop.c3{ color:#a8e0b0; } .word-pop.c4{ color:#fff; }
+
+  .celebrate-emoji-row{ margin-top:16px; font-size:clamp(26px,6vw,40px); opacity:0; animation:wordPop .6s cubic-bezier(.2,1.8,.4,1) forwards; }
+
+  /* balloons rising through the celebration stage */
+  .celeb-balloon{
+    position:absolute; bottom:-60px; width:38px; height:48px;
+    border-radius:50% 50% 50% 50%/45% 45% 55% 55%;
+    box-shadow:inset -5px -5px 8px rgba(0,0,0,.15), inset 5px 5px 8px rgba(255,255,255,.3);
+    animation:celebRise linear forwards;
+  }
+  @keyframes celebRise{ 0%{ transform:translateY(0) rotate(-4deg); opacity:0; } 10%{ opacity:.95; } 100%{ transform:translateY(-340px) rotate(4deg); opacity:0; } }
+
+  /* confetti drifting inside the celebration stage */
+  .celeb-confetti{ position:absolute; top:-20px; pointer-events:none; animation:celebFall linear forwards; }
+  @keyframes celebFall{ 0%{ transform:translateY(0) rotate(0deg); opacity:1; } 100%{ transform:translateY(340px) rotate(360deg); opacity:.2; } }
+
+  /* flip-clock style age card */
+  .age-card-wrap{ position:relative; }
+  .age-label{
+    display:inline-block; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.25em;
+    text-transform:uppercase; color:var(--plum); background:var(--gold);
+    padding:4px 12px; border-radius:20px; margin-bottom:14px;
+    box-shadow:0 4px 10px rgba(0,0,0,.25);
+  }
+  .age-card{
+    position:relative; width:clamp(140px,32vw,220px); height:clamp(120px,26vw,180px);
+    background:linear-gradient(180deg,#fffaf3,#f3e4cf);
+    border-radius:18px; overflow:hidden;
+    box-shadow:0 24px 50px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.6);
+  }
+  .age-card::before{
+    content:""; position:absolute; top:50%; left:0; width:100%; height:2px;
+    background:rgba(74,46,53,.18); transform:translateY(-50%); z-index:3;
+  }
+  .age-card::after{
+    content:""; position:absolute; inset:0; border-radius:18px; z-index:2; pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,.06), transparent 12%, transparent 88%, rgba(0,0,0,.1));
+  }
   .age-counter{
-    font-family:'Fraunces',serif; font-weight:600; font-size:clamp(90px,20vw,160px);
-    line-height:1; color:#fff; text-shadow:0 8px 30px rgba(0,0,0,.4);
+    font-family:'Fraunces',serif; font-weight:600; font-size:clamp(64px,16vw,110px);
+    line-height:1; color:var(--plum);
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    text-shadow:0 2px 0 rgba(255,255,255,.4);
   }
-  .age-counter.flip{ animation:ageFlip .6s ease; }
+  .age-counter.flip{ animation:ageFlip .65s cubic-bezier(.5,.1,.4,1); }
   @keyframes ageFlip{
-    0%{ transform:rotateX(0deg) translateY(0); opacity:1; }
-    45%{ transform:rotateX(90deg) translateY(-10px); opacity:.2; }
-    55%{ transform:rotateX(-90deg) translateY(10px); opacity:.2; }
-    100%{ transform:rotateX(0deg) translateY(0); opacity:1; }
+    0%{ transform:rotateX(0deg); opacity:1; }
+    45%{ transform:rotateX(96deg); opacity:.3; }
+    55%{ transform:rotateX(-96deg); opacity:.3; }
+    100%{ transform:rotateX(0deg); opacity:1; }
   }
-  .intro-caption{ margin-top:14px; font-family:'Caveat',cursive; font-size:22px; color:#f1d9c8; }
+  .age-sparkle{
+    position:absolute; font-size:16px; color:var(--gold); pointer-events:none;
+    animation:ageSparkle .9s ease-out forwards;
+  }
+  @keyframes ageSparkle{
+    0%{ opacity:0; transform:translate(0,0) scale(.4) rotate(0deg); }
+    30%{ opacity:1; }
+    100%{ opacity:0; transform:translate(var(--sx,0),var(--sy,-40px)) scale(1.1) rotate(180deg); }
+  }
+  .intro-caption{ margin-top:18px; font-family:'Caveat',cursive; font-size:22px; color:#f1d9c8; }
 
   .intro-hbd{
     font-size:clamp(30px,6vw,46px); color:#fff; margin-bottom:8px;
@@ -453,31 +546,99 @@
   }
   .intro-sub{ font-family:'Caveat',cursive; font-size:20px; color:#ffe4ea; margin-bottom:8px; }
 
-  .cake-cut-stage{ position:relative; width:190px; height:168px; margin:22px auto 4px; cursor:pointer; }
-  .cc-half{ position:absolute; top:0; width:95px; height:168px; overflow:hidden; transition:transform .7s cubic-bezier(.6,.1,.3,1); }
+  .cake-cut-stage{ position:relative; width:200px; height:196px; margin:26px auto 4px; cursor:pointer; }
+
+  /* plate under the cake */
+  .cc-plate{
+    position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+    width:180px; height:26px; border-radius:50%;
+    background:radial-gradient(ellipse at 50% 30%, #fff, #e7dccb 75%);
+    box-shadow:0 10px 18px rgba(0,0,0,.35), inset 0 -2px 4px rgba(0,0,0,.08);
+  }
+
+  /* twinkling stars floating around the cake, fade once cut */
+  .cake-twinkle{ position:absolute; font-size:14px; color:#ffe6a0; animation:twinkle 1.8s ease-in-out infinite; transition:opacity .4s ease; }
+  @keyframes twinkle{ 0%,100%{ opacity:.25; transform:scale(.8);} 50%{ opacity:1; transform:scale(1.15);} }
+  .cake-cut-stage.cut .cake-twinkle{ opacity:0; }
+
+  .cc-half{ position:absolute; top:0; width:100px; height:168px; overflow:hidden; transition:transform .7s cubic-bezier(.6,.1,.3,1); }
   .cc-half.left{ left:0; }
   .cc-half.right{ right:0; }
-  .cc-inner{ position:absolute; top:0; width:190px; }
+  .cc-inner{ position:absolute; top:0; width:200px; height:168px; }
   .cc-half.left .cc-inner{ left:0; }
   .cc-half.right .cc-inner{ right:0; }
-  .cake-cut-stage.cut .cc-half.left{ transform:translate(-30px,6px) rotate(-5deg); }
-  .cake-cut-stage.cut .cc-half.right{ transform:translate(30px,6px) rotate(5deg); }
+  .cake-cut-stage.cut .cc-half.left{ transform:translate(-34px,8px) rotate(-6deg); }
+  .cake-cut-stage.cut .cc-half.right{ transform:translate(34px,8px) rotate(6deg); }
 
   .cc-base{ position:absolute; bottom:0; left:0; width:100%; height:66px; background:repeating-linear-gradient(90deg,#fff 0 12px,#ffe3ea 12px 24px); border-radius:6px; box-shadow:0 8px 18px rgba(0,0,0,.22); }
   .cc-mid{ position:absolute; bottom:60px; left:8%; width:84%; height:38px; background:repeating-linear-gradient(90deg,#fff 0 10px,#ffd7e2 10px 20px); border-radius:6px; box-shadow:0 6px 12px rgba(0,0,0,.16); }
   .cc-top{ position:absolute; bottom:96px; left:20%; width:60%; height:22px; background:#fff; border-radius:40% 40% 8px 8px; box-shadow:0 4px 8px rgba(0,0,0,.12); }
+  .cc-drip{ position:absolute; bottom:92px; width:9px; height:16px; background:#ffd1de; border-radius:0 0 50% 50%; }
+  .cc-drip.d1{ left:26%; } .cc-drip.d2{ left:48%; } .cc-drip.d3{ left:68%; }
   .cc-candle{ position:absolute; bottom:116px; left:50%; width:6px; height:26px; background:var(--gold); transform:translateX(-50%); border-radius:2px; }
   .cc-flame{ position:absolute; bottom:140px; left:50%; width:10px; height:14px; background:radial-gradient(circle,#ffe08a,#ff9d3d 70%); border-radius:50%/65% 65% 35% 35%; transform:translateX(-50%); animation:flicker 1.4s ease-in-out infinite; }
   .cake-cut-stage.cut .cc-flame, .cake-cut-stage.cut .cc-candle{ opacity:0; transition:opacity .3s ease; }
 
+  /* smoke wisp once the candle goes out */
+  .cc-smoke{
+    position:absolute; bottom:140px; left:50%; width:5px; height:5px; transform:translateX(-50%);
+    border-radius:50%; background:rgba(230,225,220,0); opacity:0; pointer-events:none;
+  }
+  .cake-cut-stage.cut .cc-smoke{ animation:smokeRise 1.6s ease-out .3s forwards; }
+  @keyframes smokeRise{
+    0%{ opacity:0; background:rgba(230,225,220,.5); transform:translateX(-50%) translateY(0) scale(1); }
+    20%{ opacity:.55; }
+    100%{ opacity:0; background:rgba(230,225,220,.5); transform:translateX(-50%) translateY(-46px) scale(3.2); }
+  }
+
   .knife{
-    position:absolute; top:-46px; left:50%; transform:translateX(-50%) rotate(18deg);
-    font-size:36px; transition:transform .55s cubic-bezier(.5,0,.4,1), opacity .3s ease .35s;
+    position:absolute; top:-50px; left:50%; transform:translateX(-50%) rotate(18deg);
+    font-size:38px; transition:transform .55s cubic-bezier(.5,0,.4,1), opacity .3s ease .35s;
     filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));
   }
-  .cake-cut-stage.cut .knife{ transform:translateX(-50%) translateY(190px) rotate(18deg); opacity:0; }
+  .knife::after{
+    content:""; position:absolute; top:6px; left:50%; width:2px; height:22px;
+    background:linear-gradient(180deg, rgba(255,255,255,.8), transparent);
+    transform:translateX(-50%) rotate(0deg); opacity:0;
+  }
+  .cake-cut-stage:hover .knife{ transform:translateX(-50%) rotate(10deg) scale(1.06); }
+  .cake-cut-stage.cut .knife{ transform:translateX(-50%) translateY(200px) rotate(18deg); opacity:0; }
 
-  .intro-hint{ margin-top:18px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.05em; color:#ffe4ea; opacity:.9; animation:bobtext 2s ease-in-out infinite; }
+  .intro-hint{ margin-top:20px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.05em; color:#ffe4ea; opacity:.9; animation:bobtext 2s ease-in-out infinite; }
+
+  /* bokeh depth lights drifting behind the intro */
+  .bokeh{
+    position:absolute; border-radius:50%; filter:blur(2px);
+    background:radial-gradient(circle at 35% 30%, rgba(255,224,138,.5), rgba(255,224,138,0) 70%);
+    animation:bokehFloat ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes bokehFloat{
+    0%,100%{ transform:translateY(0) scale(1); opacity:.5; }
+    50%{ transform:translateY(-26px) scale(1.15); opacity:.85; }
+  }
+
+  /* 3D tilt wrappers (perspective parents; JS rotates the child on mousemove) */
+  .tilt-wrap{ perspective:900px; }
+  .tilt-target{ transition:transform .25s ease-out; transform-style:preserve-3d; }
+
+  /* breathing glow ring behind the cake, calms once cut */
+  .cake-glow-ring{
+    position:absolute; left:50%; top:60%; transform:translate(-50%,-50%);
+    width:170px; height:170px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,224,138,.35), transparent 68%);
+    animation:ringBreathe 2.6s ease-in-out infinite; pointer-events:none;
+  }
+  @keyframes ringBreathe{ 0%,100%{ opacity:.5; transform:translate(-50%,-50%) scale(.92);} 50%{ opacity:.9; transform:translate(-50%,-50%) scale(1.08);} }
+  .cake-cut-stage.cut ~ .cake-glow-ring, .cake-cut-stage.cut .cake-glow-ring{ animation-play-state:paused; opacity:0; transition:opacity .5s ease; }
+
+  /* bouncing letters for the Happy Birthday headline */
+  .intro-hbd .ch{
+    display:inline-block; opacity:0; transform:translateY(-16px);
+    animation:letterBounce .6s cubic-bezier(.28,1.6,.5,1) forwards;
+  }
+  @keyframes letterBounce{ to{ opacity:1; transform:translateY(0); } }
+
 
   /* ============ Advanced polish ============ */
 
@@ -533,32 +694,65 @@
 <body class="intro-active">
 
 <div class="intro-overlay" id="introOverlay">
-  <div class="intro-stage" id="introStage1">
+  <div class="bokeh" style="width:60px;height:60px;left:12%;top:20%;animation-duration:6s;"></div>
+  <div class="bokeh" style="width:36px;height:36px;left:82%;top:30%;animation-duration:5s;animation-delay:.6s;"></div>
+  <div class="bokeh" style="width:80px;height:80px;left:20%;top:70%;animation-duration:7.5s;animation-delay:1.1s;"></div>
+  <div class="bokeh" style="width:44px;height:44px;left:75%;top:75%;animation-duration:6.5s;animation-delay:.3s;"></div>
+  <div class="bokeh" style="width:26px;height:26px;left:50%;top:12%;animation-duration:5.5s;animation-delay:.9s;"></div>
+
+  <div class="intro-stage stage-in" id="introStage1">
     <p class="intro-eyebrow">the clock strikes midnight</p>
-    <div class="age-counter" id="ageCounter">24</div>
+    <div class="tilt-wrap">
+      <div class="age-card-wrap tilt-target" id="ageTiltTarget">
+        <span class="age-label">age</span>
+        <div class="age-card"><div class="age-counter" id="ageCounter">24</div></div>
+      </div>
+    </div>
     <p class="intro-caption">turning a year older...</p>
   </div>
 
-  <div class="intro-stage" id="introStage2" style="display:none;">
-    <p class="intro-eyebrow">✿ 01 August ✿</p>
-    <h2 class="intro-hbd">Happy Birthday<br>Swetha! 🎉</h2>
-    <span class="intro-sub">make a wish, then cut the cake</span>
-    <div class="cake-cut-stage" id="cakeCutStage">
-      <div class="knife">🔪</div>
-      <div class="cc-half left">
-        <div class="cc-inner">
-          <div class="cc-candle"></div><div class="cc-flame"></div>
-          <div class="cc-top"></div><div class="cc-mid"></div><div class="cc-base"></div>
+  <div class="intro-stage stage-pending" id="introStage2" style="display:none;">
+    <div class="celebrate-stage" id="celebrateStage">
+      <div class="celebrate-bg-pulse"></div>
+      <p class="intro-eyebrow">✿ 01 August ✿</p>
+      <div class="word-pop-line">
+        <span class="word-pop c1" id="wp1" style="animation-delay:.05s;">Happy</span>
+        <span class="word-pop c2" id="wp2" style="animation-delay:.3s;">Birthday</span>
+      </div>
+      <div class="word-pop-line">
+        <span class="word-pop c3" id="wp3" style="animation-delay:.6s;">Swetha</span>
+        <span class="word-pop c4" id="wp4" style="animation-delay:.8s;">!</span>
+      </div>
+      <span class="intro-sub" style="opacity:0; animation:wordPop .6s cubic-bezier(.2,1.8,.4,1) forwards; animation-delay:1s;">make a wish, then cut the cake</span>
+      <div class="tilt-wrap">
+      <div class="cake-cut-stage tilt-target" id="cakeCutStage">
+        <div class="cake-glow-ring"></div>
+        <div class="cake-twinkle" style="top:6px; left:8px;">✦</div>
+        <div class="cake-twinkle" style="top:2px; right:10px; animation-delay:.5s;">✦</div>
+        <div class="cake-twinkle" style="top:40px; left:-6px; animation-delay:1s;">✿</div>
+        <div class="cake-twinkle" style="top:36px; right:-8px; animation-delay:.3s;">✿</div>
+        <div class="knife">🔪</div>
+        <div class="cc-plate"></div>
+        <div class="cc-half left">
+          <div class="cc-inner">
+            <div class="cc-smoke"></div>
+            <div class="cc-candle"></div><div class="cc-flame"></div>
+            <div class="cc-top"></div>
+            <div class="cc-drip d1"></div><div class="cc-drip d2"></div>
+            <div class="cc-mid"></div><div class="cc-base"></div>
+          </div>
+        </div>
+        <div class="cc-half right">
+          <div class="cc-inner">
+            <div class="cc-top"></div>
+            <div class="cc-drip d2"></div><div class="cc-drip d3"></div>
+            <div class="cc-mid"></div><div class="cc-base"></div>
+          </div>
         </div>
       </div>
-      <div class="cc-half right">
-        <div class="cc-inner">
-          <div class="cc-candle"></div><div class="cc-flame"></div>
-          <div class="cc-top"></div><div class="cc-mid"></div><div class="cc-base"></div>
-        </div>
       </div>
+      <p class="intro-hint">tap or swipe the cake to cut it</p>
     </div>
-    <p class="intro-hint">tap the cake to cut it</p>
   </div>
 </div>
 
@@ -566,9 +760,7 @@
 
 <div class="player" id="player">
   <div class="reel"></div>
-  <button onclick="changeMusic('song.mp3')">Melody</button>
-  <button onclick="changeMusic('song.mp3')">Friends</button>
-  <button onclick="changeMusic('song.mp3')">Birthday</button>
+  <button onclick="toggleMainSong()" id="musicToggleBtn">🎵 Music</button>
 </div>
 
 <nav class="pinboard" id="pinboard"></nav>
@@ -823,7 +1015,45 @@
       });
     }
 
-    // corner flourish SVG, added to every leaf page automatically
+    // bouncing letters for the Happy Birthday headline (keeps the <br> intact)
+    const hbdTitle = document.getElementById("hbdTitle");
+    if(hbdTitle){
+      let idx = 0;
+      const frag = document.createDocumentFragment();
+      hbdTitle.childNodes.forEach(node=>{
+        if(node.nodeType === Node.TEXT_NODE){
+          [...node.textContent].forEach(ch=>{
+            const span = document.createElement("span");
+            span.className = "ch";
+            span.textContent = ch === " " ? "\u00A0" : ch;
+            span.style.animationDelay = (idx*0.045) + "s";
+            idx++;
+            frag.appendChild(span);
+          });
+        } else {
+          frag.appendChild(node.cloneNode(true));
+        }
+      });
+      hbdTitle.innerHTML = "";
+      hbdTitle.appendChild(frag);
+    }
+
+    // 3D tilt for the age card and the cake, following the pointer
+    if(window.matchMedia("(hover:hover)").matches){
+      document.addEventListener("mousemove", (e)=>{
+        document.querySelectorAll(".tilt-target").forEach(el=>{
+          if(!el.offsetParent) return; // skip hidden stages
+          const rect = el.getBoundingClientRect();
+          const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+          const dx = (e.clientX - cx) / (rect.width/2);
+          const dy = (e.clientY - cy) / (rect.height/2);
+          const rx = Math.max(-1,Math.min(1,-dy)) * 8;
+          const ry = Math.max(-1,Math.min(1,dx)) * 8;
+          el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+        });
+      });
+    }
+
     const flourishSVG = `<svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M4 42 C4 20 20 4 42 4" stroke="#92A87E" stroke-width="1.3"/>
       <path d="M4 42 C4 28 12 18 24 15" stroke="#D4A657" stroke-width="1.1"/>
@@ -866,7 +1096,10 @@
 
   /* ============ Config ============ */
   const musicFolder = "music/";
-  const chapterMusic = { birth:"song.mp3", childhood:"song.mp3", school:"song.mp3", college:"song.mp3", friendship:"song.mp3", family:"song", gallery:"song.mp3", videos:"song.mp3", final:"song.mp3" };
+  // one merged song plays throughout the whole site; the birthday song only
+  // plays for the cake-cutting moment, then it hands back to the main song.
+  const MAIN_SONG = "song.mp3";
+  const BIRTHDAY_SONG = "birthday.mp3";
   const galleryCount = 12;
 
   /* ============ Placeholder illustrations (used when a real photo is missing) ============ */
@@ -921,28 +1154,39 @@
   /* ============ Music ============ */
   const music = document.getElementById("bgMusic");
   const player = document.getElementById("player");
+  const musicToggleBtn = document.getElementById("musicToggleBtn");
   let userUnmuted = false;
 
-  function changeMusic(song){
-    music.src = musicFolder + song;
+  function playMainSong(){
+    music.src = musicFolder + MAIN_SONG;
     music.muted = false;
     music.volume = 0.5;
     music.play().then(()=>{ player.classList.add("playing"); userUnmuted = true; }).catch(()=>{});
   }
 
-  /* ============ Autoplay helper ============ */
-  function startMusic(song){
-    music.src = musicFolder + (song || chapterMusic.birth);
+  function playBirthdaySong(){
+    music.src = musicFolder + BIRTHDAY_SONG;
     music.muted = false;
-    music.volume = 0.5;
+    music.volume = 0.55;
     music.play().then(()=>{ player.classList.add("playing"); userUnmuted = true; }).catch(()=>{});
   }
 
-  /* Browsers block unmuted autoplay with no user gesture, so: start muted right away
-     (this IS allowed everywhere), then unmute the instant any interaction happens —
-     a tap, a key, a scroll, even a mouse move — so it feels instant without ever
-     showing a blocked-autoplay silence. */
-  music.src = musicFolder + chapterMusic.birth;
+  function toggleMainSong(){
+    if(music.paused || music.muted){
+      music.muted = false;
+      if(!music.src) music.src = musicFolder + MAIN_SONG;
+      music.play().then(()=>{ player.classList.add("playing"); userUnmuted = true; }).catch(()=>{});
+    } else {
+      music.pause();
+      player.classList.remove("playing");
+    }
+  }
+
+  /* Browsers block unmuted autoplay with no user gesture, so: start the main
+     song muted right away (this IS allowed everywhere), then unmute the instant
+     any interaction happens — a tap, a key, a scroll, even a mouse move — so it
+     feels instant without ever showing a blocked-autoplay silence. */
+  music.src = musicFolder + MAIN_SONG;
   music.volume = 0.5;
   music.muted = true;
   const mutedPlayAttempt = music.play();
@@ -958,47 +1202,158 @@
     document.addEventListener(evt, unmuteOnFirstGesture, { once:true, passive:true })
   );
 
-  /* ============ Intro: age flip -> happy birthday -> cake cut ============ */
+  /* ============ Intro: age flip -> happy birthday cake stage (with bouncing text + balloons/confetti built in) ============ */
   const introOverlay = document.getElementById('introOverlay');
   const introStage1 = document.getElementById('introStage1');
   const introStage2 = document.getElementById('introStage2');
+  const celebrateStage = document.getElementById('celebrateStage');
   const ageCounter = document.getElementById('ageCounter');
+  const ageCardWrap = document.querySelector('.age-card-wrap');
   const cakeCutStage = document.getElementById('cakeCutStage');
 
+  // a few slow drifting particles inside the overlay for atmosphere
+  (function seedIntroParticles(){
+    const syms = ["✦","✿","·","❤"];
+    for(let i=0;i<10;i++){
+      const p = document.createElement("div");
+      p.className = "intro-particle";
+      p.textContent = syms[i % syms.length];
+      p.style.left = (Math.random()*90 + 5) + "%";
+      p.style.bottom = "-10%";
+      p.style.fontSize = (Math.random()*10 + 10) + "px";
+      p.style.animationDuration = (Math.random()*6 + 7) + "s";
+      p.style.animationDelay = (Math.random()*6) + "s";
+      introOverlay.appendChild(p);
+    }
+  })();
+
+  function sparkleBurst(container, count){
+    for(let i=0;i<count;i++){
+      const s = document.createElement("div");
+      s.className = "age-sparkle";
+      const angle = Math.random()*Math.PI*2;
+      const dist = 40 + Math.random()*40;
+      s.style.setProperty('--sx', (Math.cos(angle)*dist) + 'px');
+      s.style.setProperty('--sy', (Math.sin(angle)*dist - 20) + 'px');
+      s.style.left = "50%"; s.style.top = "50%";
+      s.style.animationDelay = (Math.random()*0.15) + "s";
+      container.appendChild(s);
+      setTimeout(()=> s.remove(), 1100);
+    }
+  }
+
+  // generic crossfade between any two intro stages
+  function crossfadeStage(fromEl, toEl, gap){
+    fromEl.classList.remove('stage-in');
+    fromEl.classList.add('stage-out');
+    setTimeout(()=>{
+      fromEl.style.display = 'none';
+      toEl.style.display = 'flex';
+      requestAnimationFrame(()=>{
+        toEl.classList.remove('stage-pending');
+        toEl.classList.add('stage-in');
+      });
+    }, gap || 500);
+  }
+
+  // balloons + confetti rising/falling behind the cake-cut stage's bouncing text
+  function fillCelebrationStage(){
+    const balloonColors = ["#E8879B","#D4A657","#92A87E","#C85C77"];
+    for(let i=0;i<7;i++){
+      const b = document.createElement("div");
+      b.className = "celeb-balloon";
+      b.style.left = (8 + i*13 + Math.random()*6) + "%";
+      b.style.background = balloonColors[i % balloonColors.length];
+      b.style.animationDuration = (2.6 + Math.random()*1.2) + "s";
+      b.style.animationDelay = (Math.random()*0.6) + "s";
+      celebrateStage.appendChild(b);
+    }
+    const confColors = ["#FF5D8F","#FFC93C","#4DB6AC","#5B8DEF","#C780FA"];
+    for(let i=0;i<18;i++){
+      const c = document.createElement("div");
+      c.className = "celeb-confetti";
+      c.textContent = "●";
+      c.style.left = (Math.random()*94 + 3) + "%";
+      c.style.color = confColors[i % confColors.length];
+      c.style.fontSize = (Math.random()*6 + 6) + "px";
+      c.style.animationDuration = (1.6 + Math.random()*1.2) + "s";
+      c.style.animationDelay = (Math.random()*0.8) + "s";
+      celebrateStage.appendChild(c);
+    }
+  }
+
   function runIntro(){
-    // flip the age from 24 to 25
+    // flip the age from 24 to 25, with a little sparkle burst around the card
     setTimeout(()=>{
       ageCounter.classList.add('flip');
-      setTimeout(()=>{ ageCounter.textContent = '25'; }, 300);
-      setTimeout(()=>{ ageCounter.classList.remove('flip'); }, 620);
+      sparkleBurst(ageCardWrap, 8);
+      setTimeout(()=>{ ageCounter.textContent = '25'; }, 320);
+      setTimeout(()=>{ ageCounter.classList.remove('flip'); }, 660);
     }, 1000);
 
-    // swap to the happy-birthday + cake stage
+    // cross-fade straight into the happy-birthday + cake stage (bouncing text, balloons, confetti all live there now)
     setTimeout(()=>{
-      introStage1.style.display = 'none';
-      introStage2.style.display = 'flex';
-    }, 2400);
+      fillCelebrationStage();
+      crossfadeStage(introStage1, introStage2, 500);
+    }, 2500);
+  }
+
+  function crumbBurst(originEl){
+    const rect = originEl.getBoundingClientRect();
+    const colors = ["#f3ceb8","#e8c39a","#fff5e6","#d9a441"];
+    for(let i=0;i<24;i++){
+      const c = document.createElement("div");
+      c.style.position = "fixed";
+      c.style.left = (rect.left + rect.width/2) + "px";
+      c.style.top = (rect.top + rect.height*0.55) + "px";
+      c.style.width = c.style.height = (Math.random()*5+3) + "px";
+      c.style.borderRadius = "50%";
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      c.style.zIndex = 100000; c.style.pointerEvents = "none";
+      document.body.appendChild(c);
+      const dx = (Math.random()*140-70), dy = (Math.random()*-90-20);
+      const anim = c.animate([
+        { transform:"translate(0,0)", opacity:1 },
+        { transform:`translate(${dx}px, ${dy}px)`, opacity:1, offset:.5 },
+        { transform:`translate(${dx*1.3}px, ${dy*-1+70}px)`, opacity:0 }
+      ], { duration: 900+Math.random()*400, easing:"cubic-bezier(.3,.6,.4,1)" });
+      anim.onfinish = ()=> c.remove();
+    }
   }
 
   let cakeCut = false;
-  cakeCutStage.addEventListener('click', ()=>{
+  function performCakeCut(){
     if(cakeCut) return;
     cakeCut = true;
     cakeCutStage.classList.add('cut');
+    crumbBurst(cakeCutStage);
     confettiBurst();
-    startMusic(chapterMusic.birth); // first real user gesture, so audio is allowed to play
+    playBirthdaySong(); // the one moment that gets its own song
     setTimeout(()=>{
       introOverlay.classList.add('hide');
       document.body.classList.remove('intro-active');
       setTimeout(()=>{ introOverlay.remove(); }, 950);
     }, 900);
+    // once the birthday song has had its moment, hand back to the single main song
+    setTimeout(()=>{ playMainSong(); }, 8000);
+  }
+  cakeCutStage.addEventListener('click', performCakeCut);
+
+  // also allow a quick swipe/drag across the cake to cut it, like a real knife stroke
+  let swipeStartX = null, swipeStartY = null;
+  cakeCutStage.addEventListener('pointerdown', (e)=>{ swipeStartX = e.clientX; swipeStartY = e.clientY; });
+  cakeCutStage.addEventListener('pointermove', (e)=>{
+    if(swipeStartX === null || cakeCut) return;
+    const dist = Math.hypot(e.clientX - swipeStartX, e.clientY - swipeStartY);
+    if(dist > 26) performCakeCut();
   });
+  cakeCutStage.addEventListener('pointerup', ()=>{ swipeStartX = null; swipeStartY = null; });
 
   runIntro();
 
   /* ============ Book open ============ */
   function openBook(){
-    startMusic(chapterMusic.birth);
+    if(!music.src || music.paused) playMainSong();
     document.getElementById("book").classList.add("opened");
     setTimeout(()=>{ document.querySelector('[data-chapter="birth"]').scrollIntoView({behavior:"smooth"}); }, 500);
   }
@@ -1016,7 +1371,7 @@
   });
   const pins = document.querySelectorAll(".pin");
 
-  /* ============ Scroll observer: music + reveal + active pin ============ */
+  /* ============ Scroll observer: reveal + active pin (single song plays throughout, no per-chapter switching) ============ */
   const leaves = document.querySelectorAll(".leaf");
   const chapterObserver = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
@@ -1024,7 +1379,6 @@
       if(entry.isIntersecting && leaf){ leaf.classList.add("show"); }
       if(entry.intersectionRatio >= 0.5){
         const name = entry.target.dataset.chapter;
-        if(chapterMusic[name]){ music.src = musicFolder + chapterMusic[name]; music.play().then(()=>player.classList.add("playing")).catch(()=>{}); }
         pins.forEach(p=> p.classList.toggle("active", p.dataset.target === name));
       }
     });
