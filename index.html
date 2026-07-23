@@ -1066,6 +1066,29 @@
       });
     }
 
+    // bouncing letters for the Happy Birthday headline (keeps the <br> intact)
+    const hbdTitle = document.getElementById("hbdTitle");
+    if(hbdTitle){
+      let idx = 0;
+      const frag = document.createDocumentFragment();
+      hbdTitle.childNodes.forEach(node=>{
+        if(node.nodeType === Node.TEXT_NODE){
+          [...node.textContent].forEach(ch=>{
+            const span = document.createElement("span");
+            span.className = "ch";
+            span.textContent = ch === " " ? "\u00A0" : ch;
+            span.style.animationDelay = (idx*0.045) + "s";
+            idx++;
+            frag.appendChild(span);
+          });
+        } else {
+          frag.appendChild(node.cloneNode(true));
+        }
+      });
+      hbdTitle.innerHTML = "";
+      hbdTitle.appendChild(frag);
+    }
+
     // 3D tilt for the age card and the cake, following the pointer
     if(window.matchMedia("(hover:hover)").matches){
       document.addEventListener("mousemove", (e)=>{
@@ -1125,8 +1148,7 @@
   /* ============ Config ============ */
   const musicFolder = "music/";
   // one merged song plays throughout the whole site; the birthday song only
-  // plays right after the age flip and through the cake-cut moment, then
-  // hands back to the main song once the original page is showing.
+  // plays for the cake-cutting moment, then it hands back to the main song.
   const MAIN_SONG = "song.mp3";
   const BIRTHDAY_SONG = "birthday.mp3";
   const galleryCount = 12;
@@ -1187,14 +1209,14 @@
   let userUnmuted = false;
 
   function playMainSong(){
-    if(!music.src.endsWith(MAIN_SONG)) music.src = musicFolder + MAIN_SONG;
+    music.src = musicFolder + MAIN_SONG;
     music.muted = false;
     music.volume = 0.5;
     music.play().then(()=>{ player.classList.add("playing"); userUnmuted = true; }).catch(()=>{});
   }
 
   function playBirthdaySong(){
-    if(!music.src.endsWith(BIRTHDAY_SONG)) music.src = musicFolder + BIRTHDAY_SONG;
+    music.src = musicFolder + BIRTHDAY_SONG;
     music.muted = false;
     music.volume = 0.55;
     music.play().then(()=>{ player.classList.add("playing"); userUnmuted = true; }).catch(()=>{});
@@ -1211,13 +1233,12 @@
     }
   }
 
-  /* Browsers block unmuted autoplay with no user gesture, so: start the
-     BIRTHDAY song muted right away (this IS allowed everywhere) — since that's
-     the song that should be heard the moment the age flip finishes — then
-     unmute the instant any interaction happens (tap, key, scroll, even a mouse
-     move) so it feels instant without ever showing a blocked-autoplay silence. */
-  music.src = musicFolder + BIRTHDAY_SONG;
-  music.volume = 0.55;
+  /* Browsers block unmuted autoplay with no user gesture, so: start the main
+     song muted right away (this IS allowed everywhere), then unmute the instant
+     any interaction happens — a tap, a key, a scroll, even a mouse move — so it
+     feels instant without ever showing a blocked-autoplay silence. */
+  music.src = musicFolder + MAIN_SONG;
+  music.volume = 0.5;
   music.muted = true;
   const mutedPlayAttempt = music.play();
   if(mutedPlayAttempt){ mutedPlayAttempt.then(()=> player.classList.add("playing")).catch(()=>{}); }
@@ -1313,14 +1334,12 @@
   }
 
   function runIntro(){
-    // flip the age from 24 to 25, with a little sparkle burst around the card —
-    // and this is the exact moment the birthday song takes over
+    // flip the age from 24 to 25, with a little sparkle burst around the card
     setTimeout(()=>{
       ageCounter.classList.add('flip');
       sparkleBurst(ageCardWrap, 8);
       setTimeout(()=>{ ageCounter.textContent = '25'; }, 320);
       setTimeout(()=>{ ageCounter.classList.remove('flip'); }, 660);
-      playBirthdaySong();
     }, 1000);
 
     // cross-fade straight into the happy-birthday + cake stage (bouncing text, balloons, confetti all live there now)
@@ -1360,16 +1379,14 @@
     cakeCutStage.classList.add('cut');
     crumbBurst(cakeCutStage);
     confettiBurst();
-    // birthday song is already playing (started at the age-flip moment), so
-    // nothing to trigger here — just close the overlay and hand off after
+    playBirthdaySong(); // the one moment that gets its own song
     setTimeout(()=>{
       introOverlay.classList.add('hide');
       document.body.classList.remove('intro-active');
-      setTimeout(()=>{
-        introOverlay.remove();
-        playMainSong(); // original page is now showing — hand off to the main song
-      }, 950);
+      setTimeout(()=>{ introOverlay.remove(); }, 950);
     }, 900);
+    // once the birthday song has had its moment, hand back to the single main song
+    setTimeout(()=>{ playMainSong(); }, 8000);
   }
   cakeCutStage.addEventListener('click', performCakeCut);
 
